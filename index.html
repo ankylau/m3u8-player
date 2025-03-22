@@ -4,15 +4,9 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>M3U8 Player</title>
-        <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"
-        ></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="https://unpkg.com/popper.js@1.12.3"></script>
-        
         <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
-        
         <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="home.css" />
         <script type="text/javascript" src="main.js"></script>
@@ -21,7 +15,7 @@
         <div class="col-lg-6" id="text-box">
             <h1 class="page-name">M3U8 Player</h1>
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Paste the m3u8 link here" id="m3u8-placeholder" value="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"onclick="this.select()" />
+                <input type="text" class="form-control" value="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" placeholder="Paste the m3u8 link here" id="m3u8-placeholder" onclick="this.select()" />
                 <span class="input-group-btn">
                     <button class="btn btn-primary" type="button" id="play-btn">Play</button>
                 </span>
