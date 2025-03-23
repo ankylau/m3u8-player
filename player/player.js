@@ -1,9 +1,7 @@
 var video = document.getElementById('video');
 
 function playM3u8(url) {
-    // 设置自定义标题
-    document.title = "Sao M3U8 Player"; // 自定义标题
-
+    document.title = "Saofm M3U8 Player"; 
     if (Hls.isSupported()) {
         video.volume = 0.3;
         var hls = new Hls();
