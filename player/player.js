@@ -1,6 +1,9 @@
 var video = document.getElementById('video');
 
 function playM3u8(url) {
+    // 设置自定义标题
+    document.title = "Sao M3U8 Player"; // 自定义标题
+
     if (Hls.isSupported()) {
         video.volume = 0.3;
         var hls = new Hls();
@@ -10,14 +13,12 @@ function playM3u8(url) {
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
             video.play();
         });
-        document.title = "M3U8 Player";
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = url;
         video.addEventListener('canplay', function () {
             video.play();
         });
         video.volume = 0.3;
-        document.title = "Sao M3U8 Player";
     }
 }
 
