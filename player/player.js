@@ -10,14 +10,14 @@ function playM3u8(url) {
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
             video.play();
         });
-        document.title = M3U8 Player;
+        document.title = "M3U8 Player";
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = url;
         video.addEventListener('canplay', function () {
             video.play();
         });
         video.volume = 0.3;
-        document.title = Sao M3U8 Player;
+        document.title = "Sao M3U8 Player";
     }
 }
 
