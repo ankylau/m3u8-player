@@ -1,6 +1,7 @@
 var video = document.getElementById('video');
 
 function playM3u8(url) {
+    document.title = "Saofm M3U8 Player"; 
     if (Hls.isSupported()) {
         video.volume = 0.3;
         var hls = new Hls();
@@ -10,14 +11,12 @@ function playM3u8(url) {
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
             video.play();
         });
-        document.title = url;
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = url;
         video.addEventListener('canplay', function () {
             video.play();
         });
         video.volume = 0.3;
-        document.title = url;
     }
 }
 
