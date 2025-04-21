@@ -5,11 +5,21 @@ function playM3u8(url) {
         video.volume = 0.3;
         var hls = new Hls({
             xhrSetup: function(xhr, url) {
-                // 允许跨域请求
                 xhr.withCredentials = false;
-            }
+                xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+                xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
+            },
+            enableWorker: true,
+            lowLatencyMode: true,
+            backBufferLength: 90
         });
+        
         var m3u8Url = decodeURIComponent(url);
+        if (m3u8Url.startsWith('http://')) {
+            m3u8Url += (m3u8Url.indexOf('?') === -1 ? '?' : '&') + '_=' + new Date().getTime();
+        }
+        
         hls.loadSource(m3u8Url);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
@@ -35,6 +45,9 @@ function playM3u8(url) {
         });
         document.title = url;
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        if (url.startsWith('http://')) {
+            url = 'https://cors-anywhere.herokuapp.com/' + url;
+        }
         video.src = url;
         video.addEventListener('canplay', function () {
             video.play();
