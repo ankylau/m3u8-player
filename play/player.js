@@ -3,12 +3,35 @@ var video = document.getElementById('video');
 function playM3u8(url) {
     if (Hls.isSupported()) {
         video.volume = 0.3;
-        var hls = new Hls();
+        var hls = new Hls({
+            xhrSetup: function(xhr, url) {
+                // 允许跨域请求
+                xhr.withCredentials = false;
+            }
+        });
         var m3u8Url = decodeURIComponent(url);
         hls.loadSource(m3u8Url);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
             video.play();
+        });
+        hls.on(Hls.Events.ERROR, function (event, data) {
+            if (data.fatal) {
+                switch (data.type) {
+                    case Hls.ErrorTypes.NETWORK_ERROR:
+                        console.log('网络错误，尝试重新加载');
+                        hls.startLoad();
+                        break;
+                    case Hls.ErrorTypes.MEDIA_ERROR:
+                        console.log('媒体错误，尝试恢复');
+                        hls.recoverMediaError();
+                        break;
+                    default:
+                        console.log('无法恢复的错误');
+                        hls.destroy();
+                        break;
+                }
+            }
         });
         document.title = url;
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
