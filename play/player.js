@@ -3,51 +3,15 @@ var video = document.getElementById('video');
 function playM3u8(url) {
     if (Hls.isSupported()) {
         video.volume = 0.3;
-        var hls = new Hls({
-            xhrSetup: function(xhr, url) {
-                xhr.withCredentials = false;
-                xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-                xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-                xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
-            },
-            enableWorker: true,
-            lowLatencyMode: true,
-            backBufferLength: 90
-        });
-        
+        var hls = new Hls();
         var m3u8Url = decodeURIComponent(url);
-        if (m3u8Url.startsWith('http://')) {
-            m3u8Url += (m3u8Url.indexOf('?') === -1 ? '?' : '&') + '_=' + new Date().getTime();
-        }
-        
         hls.loadSource(m3u8Url);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
             video.play();
         });
-        hls.on(Hls.Events.ERROR, function (event, data) {
-            if (data.fatal) {
-                switch (data.type) {
-                    case Hls.ErrorTypes.NETWORK_ERROR:
-                        console.log('网络错误，尝试重新加载');
-                        hls.startLoad();
-                        break;
-                    case Hls.ErrorTypes.MEDIA_ERROR:
-                        console.log('媒体错误，尝试恢复');
-                        hls.recoverMediaError();
-                        break;
-                    default:
-                        console.log('无法恢复的错误');
-                        hls.destroy();
-                        break;
-                }
-            }
-        });
         document.title = url;
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        if (url.startsWith('http://')) {
-            url = 'https://cors-anywhere.herokuapp.com/' + url;
-        }
         video.src = url;
         video.addEventListener('canplay', function () {
             video.play();
